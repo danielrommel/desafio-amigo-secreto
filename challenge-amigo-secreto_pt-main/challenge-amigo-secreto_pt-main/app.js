@@ -5,6 +5,7 @@
 // VARIAVEIS COMUNS //
 let nome;
 let tagLista;
+let tagResultado;
 let li;
 let index;
 let indice;
@@ -55,12 +56,20 @@ function adicionar(){
     function exibeLista(){
         tagLista = document.getElementById("listaAmigos");
         tagLista.innerHTML = "";
-
         listaAmigos.forEach(nomeAmigo => {
             li = document.createElement("li");
             li.textContent = nomeAmigo;
             tagLista.appendChild(li);
         })
+    }
+    // A VARIAVEL "tagResultado" IRA FAZER A REFERENCIA DO ELEMENTO HTML PARA EXIBIR VALORES
+    // ELE VAI ATUALIZAR COM OS NOVOS NOMES SORTEADOS PARA EXIBIR A CADA VEZ QUE A FUNÇÃO FOR EXECUTADA
+    // E MOSTRAR NO ELEMENTO HTML, CADA ELEMENTO LI SERÁ INCLUSO DENTRO DA LISTA UL DO HTML 
+    function exibeResultado(){
+        tagResultado = document.getElementById("resultado");
+        li = document.createElement("li");
+        li.textContent = listaAmigos[index];
+        tagResultado.appendChild(li);
     }
     // FUNÇÃO GERAR NUMERO ALEATORIO //
 
@@ -75,36 +84,22 @@ function adicionar(){
     // QUANDO APERTAR O BOTAO SERÁ VERIFICADO SE FOI ADICIONADO ALGUM MEMBRO NA "listaAmigos"
     // SE FOR MENOR OU IGUAL A 0, SIGNIFICA QUE N FOI ADICIONADO NINGUEM, ENTAO FARA UM ALERTA
     // INSIRA PARTICIPANTES E ENCERRARÁ A EXECUÇÃO
-    // SE NAO, VERIFICARÁ SE VALOR DA LISTA CRIADA "listaNaoDuplica" É IGUAL AO VALOR DA "listaAmigos" -1
-    // SE SIM A VARIAVEL "index" IRÁ RECEBER VALOR DA FUNÇÃO "gerarNumeroAleatorio"
-    // ENQUANTO O VALOR DE "index" TIVER DENTRO DE "listaNaoDuplica" index FICARÁ CHAMANDO O VALOR DA
-    // FUNÇÃO "gerarNumeroAleatorio"
-    // QUANDO FOR VALOR DIFERENTE IRÁ MOSTRAR UM ALERTA MOSTRANDO O ULTIMO AMIGO SORTEADO
-    // E "index" VAI ENVIAR O VALOR PARA "listaNaoDuplica" e APAGAR A LISTA HTML
-    // E MOSTRAR EM SEGUIDA OUTRO UM ALERTA DE TODOS OS AMIGOS FORAM SORTEADOS, REINICIAR
-    // DEPOIS A "listaNaoDuplica" SERÁ ZERADA E "listaAmigos" TAMBÉM SERÁ ZERADA
-    // SE O SISTEMA NAO ENTRAR NAS PRIMEIRAS CONDIÇÕES ELE ENTRA NA ULTIMA ONDE O "index" RECEBE VALOR 
-    // DE FUNÇÃO "gerarNumeroAleatorio" E ENQUANTO "listaNaoDuplica" TIVER VALOR DO "index"
-    // "index" IRÁ RECEBER OUTRO VALOR ALEATORIO ATÉ SER DIFERENTE DO QUE JÁ TEM
+    // SE NAO, VERIFICARÁ SE VALOR DA LISTA CRIADA "listaNaoDuplica" É IGUAL AO VALOR DA "listaAmigos"
+    // SE SIM SERÁ MOSTRADO UM ALERTA E AS LISTAS SERÃO ESVAZIADAS
+    // SE NÃO FOR NENHUMA DAS OPÇÕES PASSADAS O "index" IRÁ RECEBER UM VALOR ALEATORIO E ENQUANTO ESSE
+    // VALOR ESTIVER NA "listaNaoDuplica" ELE IRÁ GERAR OUTRO NUMERO ALEATORIO PARA O "index"
+    // DEPOIS QUE PEGAR UM NUMERO DIFERENTE O VALOR DE "index" SERÁ ENVIADO PARA "listaNaoDuplica"
+    // E IRÁ EXIBIR O RESULTADO DO PROXIMO
     function sortearAmigo(){
         if (listaAmigos.length <= 0){
         alert("Insira participantes");
         return;
-    }
-    if (listaNaoDuplica.length == listaAmigos.length - 1) {
-        index = gerarNumeroAleatorio();
-        while (listaNaoDuplica.includes(index)) {
-            index = gerarNumeroAleatorio();
-        }
-        alert(`Último amigo sorteado: ${listaAmigos[index]}`);
-        console.log(listaAmigos[index]);
-        listaNaoDuplica.push(index);
-        tagLista = document.getElementById("listaAmigos");
-        tagLista.innerHTML = "";
+    }   if (listaNaoDuplica.length == listaAmigos.length) {     
         alert("Todos os amigos foram sorteados! Reiniciando a lista...");
         listaNaoDuplica = [];
         listaAmigos = [];
-        // return;
+        document.getElementById("listaAmigos").innerHTML = "";
+        document.getElementById("resultado").innerHTML = "";
     } else {
         index = gerarNumeroAleatorio();
         while (listaNaoDuplica.includes(index)) {
@@ -113,8 +108,8 @@ function adicionar(){
     // APOS RECEBER UM VALOR DIFERENTE, O "index" VAI ENVIAR VALOR A "listaNaoDuplica"
     // E VAI ALERTAR QUAL FOI O AMIGO SORTEADO
     listaNaoDuplica.push(index);
-    alert(`Amigo sorteado: ${listaAmigos[index]}`);
-    console.log(listaAmigos[index]);
+    // alert(`Amigo sorteado: ${listaAmigos[index]}`);
+    exibeResultado();
+    // console.log(listaAmigos[index]);
     }
-    
 }
